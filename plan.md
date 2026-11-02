@@ -18,14 +18,14 @@ Figures as of 2026-11-02.
 | all-grid baseline | 28.9376699166 | computed |
 | **our file (`submission_final.csv`)** | **22.2570079095** | 0 rejected; includes 614 public packings |
 | own packings only | 22.9888002453 | Kaggle scored it 22.9888002452 on 2026-11-02 |
-| best merge of public packings | 22.2591301174 | public notebook |
+| best merge of public packings | 22.2570079163 | Living Atlas, newest run |
 | aggregate of every record (2026-11-01) | 22.0562319827 | per-puzzle table |
 | #1 team | 22.0544214515 | leaderboard, 2026-11-02 |
 | puzzles still at grid | 564 → 9.3996 | `attack_surface.py` |
 | …of which provably locked | 91 → 1.1567 | `k²`, `k²−1`, `k²−2` |
 | …of which open | 473 → 8.2430 | |
 
-Progress: **28.8042 → 22.9888**.
+Progress: **28.8042 → 22.2570**.
 
 | move | gain |
 |---|---:|
@@ -33,10 +33,12 @@ Progress: **28.8042 → 22.9888**.
 | Goebel's centred block, `n > 324` | 1.2027 |
 | L-lift closure | 1.4141 |
 | Friedman's off-centre family and Göbel's diagonal strip, then lifted | 0.1640 |
+| public packings, 614 puzzles (`merge_public.py`) | 0.7318 |
 
 About 1,000 of 1,398 teams on the 2026-11-01 board sat between 22.18 and 22.72,
-because public notebooks merge everyone's published packings. Our gap to rank
-200 is about 0.9, and it is mostly not new mathematics.
+because public notebooks merge everyone's published packings. We now hold the
+best public set: our own packings beat it nowhere, so every further gain has
+to be a new record. #1 is about 0.2 ahead.
 
 ---
 
@@ -57,9 +59,11 @@ because public notebooks merge everyone's published packings. Our gap to rank
       admits impossible entries such as `n = 21` at 4.914.
 - [x] Grader gate (`grader_check.py`): every puzzle is checked by the metric's
       rules on the coordinates as written.
-- [x] `make_submission.py` rebuilds everything in order. About 30 minutes on 8
+- [x] `make_submission.py` rebuilds everything in order. About 15 minutes on 8
       cores.
-- [ ] Upload once and confirm the local score.
+- [x] Own-work file uploaded: Kaggle 22.9888002452, local 22.9888002453.
+- [x] Public packings merged (`merge_public.py`, sources in
+      `best/provenance.json`): 22.2570079095, 0 rejected. Not yet uploaded.
 
 ---
 
@@ -97,9 +101,7 @@ records. It is why `n = k² + 1` shares digits across `k = 29, 30, 31`:
 ### What the remaining gap is
 
 387 records above `n = 324` cannot be derived from another record by lifting or
-deleting. Those need new packings, and the gap to the public merge lives there.
-After lifting we sit 1.10 above the record aggregate, and Göbel's diagonal strip
-would add only about 0.05 of that.
+deleting. Those need new packings; the remaining 0.2 gap to #1 lives there.
 
 Our `sa_feasible` and `shrink` do not find them: `shrink` never leaves the grid,
 and `sa_feasible` only polishes. That is a limit of these tools, not of search.
@@ -163,9 +165,8 @@ contact LP as the finisher.
 
 ## Next
 
-1. ~~Upload and confirm~~ Done: Kaggle 22.9888002452, local 22.9888002453.
-2. **Decide on public packings.** Merging them is worth about 0.9, and
-   `contact_polish.py` can then be run on them. See the compliance note below.
+1. **Upload the merged file** and confirm 22.2570.
+2. **Polish the public packings** with `contact_polish.py`; they are not jammed.
 3. **New starting packings.** Make unjammed candidates for the polisher with a
    global search (L-BFGS on a penalty, on GPU as the public code does), or with
    new constructions.

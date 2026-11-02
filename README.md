@@ -18,7 +18,7 @@ Kaggle score to 1e-10.
 | all-grid baseline | 28.9377 |
 | this repository | 22.2570 |
 | this repository, own packings only | 22.9888 |
-| best merge of public packings | 22.2591 |
+| best merge of public packings (Living Atlas, newest run) | 22.2570 |
 | #1 on the leaderboard | 22.0544 |
 
 ## How the score is built
@@ -61,10 +61,13 @@ Needs 64-bit Python 3.14.
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements.txt
 .venv/Scripts/python fetch_witnesses.py
+.venv/Scripts/python merge_public.py public/living_atlas.csv   # optional
 .venv/Scripts/python make_submission.py
 ```
 
-`make_submission.py` takes about 30 minutes on 8 cores. It writes
+`best/` already holds the public packings. The optional step only matters for a
+newer public file, downloaded from the Living Atlas notebook's Output tab into
+`public/`. `make_submission.py` takes about 15 minutes on 8 cores. It writes
 `submission_final.csv`, and `best/` only ever improves. On Linux or macOS use
 `.venv/bin/python`.
 
@@ -76,6 +79,7 @@ python -m venv .venv
 | `submission_final.csv` | the current submission |
 | `make_submission.py` | the whole pipeline, in order |
 | `grader_check.py` | the submission gate |
+| `merge_public.py` | imports a public submission file into `best/`, recording sources |
 | `contact_polish.py` | trust-region sequential LP polisher, not in the pipeline |
 | `gpu_search.py`, `import_found.py` | batched penalty search, experimental: finds nothing yet |
 | `squares_core.py` | geometry, validators, submission I/O |
@@ -86,9 +90,9 @@ python -m venv .venv
 
 ## Next steps
 
-- `contact_polish.py` is ported but gains nothing here, because these
-  packings are jammed. It needs unjammed starting packings from a global
-  search.
+- Run `contact_polish.py` over the public packings. They are unjammed,
+  which is where it gains, unlike our own constructions.
+- New packings for the 387 records that lifting cannot explain.
 - Search for better seeds, ranked by how far an improvement lifts.
 - Attack the puzzles just past the sub-grid frontier.
 

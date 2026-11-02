@@ -148,13 +148,13 @@ per-puzzle results that lifting does not explain.
 | `build_notebook.py` | regenerates + executes the maths notebook |
 | `build_visual_notebook.py` | regenerates + executes the visual notebook |
 | `make_figures.py` | regenerates `figures/` |
-| `submission_final.csv` | the current submission, 22.9888002453 |
+| `submission_final.csv` | the current submission, 22.2570079095 |
 | `figures/` | all images, regenerable |
 
 ## 7. Running it
 
 ```bash
-python make_submission.py              # rebuild the submission, about 30 minutes
+python make_submission.py              # rebuild the submission, about 15 minutes
 python grader_check.py submission_final.csv
 python make_figures.py                 # refresh pictures
 python build_notebook.py               # rebuild + execute the maths notebook
