@@ -11,7 +11,7 @@ import sys
 
 STEPS = [
     ["witness_to_packing.py", "--skip-poly"],
-    ["gobel_packings.py", "--n-min", "325"],
+    ["gobel_packings.py", "--n-min", "325"],  # families only above the witnesses
     ["lift_packings.py"],
     ["merge_best.py", "--out", "submission_final.csv"],
     ["grader_check.py", "submission_final.csv"],

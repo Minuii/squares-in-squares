@@ -16,21 +16,22 @@ Figures as of 2026-11-02.
 | thing | value | source |
 |---|---|---|
 | all-grid baseline | 28.9376699166 | computed |
-| **our file (`submission_final.csv`)** | **23.1527917816** | 0 rejected by `grader_check.py`, not yet uploaded |
+| **our file (`submission_final.csv`)** | **22.9888002453** | 0 rejected by `grader_check.py`, not yet uploaded |
 | best merge of public packings | 22.2591301174 | public notebook |
 | aggregate of every record (2026-11-01) | 22.0562319827 | per-puzzle table |
 | #1 team | 22.0544214515 | leaderboard, 2026-11-02 |
-| puzzles still at grid | 577 → 9.6801 | `attack_surface.py` |
+| puzzles still at grid | 564 → 9.3996 | `attack_surface.py` |
 | …of which provably locked | 91 → 1.1567 | `k²`, `k²−1`, `k²−2` |
-| …of which open | 486 → 8.5234 | |
+| …of which open | 473 → 8.2430 | |
 
-Progress: **28.8042 → 23.1528**.
+Progress: **28.8042 → 22.9888**.
 
 | move | gain |
 |---|---:|
 | published witnesses for `n ≤ 324` | 3.0346 |
 | Goebel's centred block, `n > 324` | 1.2027 |
 | L-lift closure | 1.4141 |
+| Friedman's off-centre family and Göbel's diagonal strip, then lifted | 0.1640 |
 
 About 1,000 of 1,398 teams on the 2026-11-01 board sat between 22.18 and 22.72,
 because public notebooks merge everyone's published packings. Our gap to rank
@@ -47,6 +48,12 @@ because public notebooks merge everyone's published packings. Our gap to rank
 - [x] Goebel's centred-diagonal-block family (`gobel_packings.py`): 2704 builds,
       0 invalid, 176 puzzles improved.
 - [x] L-lift closure (`lift_packings.py`): 230 puzzles improved.
+- [x] Friedman's off-centre family (`2a² + 4a + b² + 1` in `a + 3/2 + b/√2`,
+      `a − 1/2 < b/√2 < a + 1/2`) and Göbel's diagonal strip, in
+      `gobel_packings.py`. 18 builds above 324 were stored, and lifting
+      carried them to 97 puzzles. An estimate made with the parent family's
+      wider condition `a − 1 < b/√2 < a + 1` gave 0.76, but that condition
+      admits impossible entries such as `n = 21` at 4.914.
 - [x] Grader gate (`grader_check.py`): every puzzle is checked by the metric's
       rules on the coordinates as written.
 - [x] `make_submission.py` rebuilds everything in order. About 30 minutes on 8
@@ -132,7 +139,7 @@ polisher needs a better start, not more time.
 
 ## Next
 
-1. **Upload `submission_final.csv`** and confirm 23.1528.
+1. **Upload `submission_final.csv`** and confirm 22.9888.
 2. **Decide on public packings.** Merging them is worth about 0.9, and
    `contact_polish.py` can then be run on them. See the compliance note below.
 3. **New starting packings.** Make unjammed candidates for the polisher with a

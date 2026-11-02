@@ -8,14 +8,14 @@ Each puzzle scores `L/√n − 1`, where `L` is the side of the tightest
 axis-aligned square around the packing. The leaderboard is the sum over all
 1000 puzzles, and lower is better.
 
-**Current score: 23.1527917816**, measured locally. All 1000 puzzles pass a
+**Current score: 22.9888002453**, measured locally. All 1000 puzzles pass a
 check built from the metric's own rules. The file has not been uploaded to
 Kaggle yet.
 
 | reference (2026-11-02) | score |
 |---|---:|
 | all-grid baseline | 28.9377 |
-| this repository | 23.1528 |
+| this repository | 22.9888 |
 | best merge of public packings | 22.2591 |
 | #1 on the leaderboard | 22.0544 |
 
@@ -26,6 +26,7 @@ Kaggle yet.
 | Published best-known packings for `n ≤ 324` | `witness_to_packing.py` | 3.0346 |
 | Goebel's centred diagonal block for `n > 324` | `gobel_packings.py` | 1.2027 |
 | L-lift and delete closure | `lift_packings.py` | 1.4141 |
+| Friedman's off-centre family and Göbel's diagonal strip, then lifted | `gobel_packings.py` | 0.1640 |
 
 The L-lift adds an L-shaped strip of `2⌊L⌋ + 1` unit squares to a packing of
 side `L`:
@@ -107,5 +108,6 @@ Code here is under the Apache License 2.0, see [`LICENSE`](LICENSE).
   notebook. The coupled sparse LP idea is credited there to prvsiyan's
   *A Square Deal*.
 - **Mathematics.** E. Friedman, *Packing Unit Squares in Squares*, Electronic
-  Journal of Combinatorics, Dynamic Survey DS7. The block family is due to
-  F. Göbel.
+  Journal of Combinatorics, Dynamic Survey DS7. The block and strip families are due to
+  F. Göbel, and the off-centre variant to Friedman. Their layouts follow the
+  Squares Project's `cases/gobel_offcentre` and `cases/gobel_strip` (MIT).

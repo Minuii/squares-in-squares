@@ -140,7 +140,7 @@ per-puzzle results that lifting does not explain.
 | `diagnose_submission.py` | re-validates a submission CSV and scores it |
 | `grader_check.py` | rejects what the Kaggle metric rejects; the submission gate |
 | `fetch_witnesses.py`, `witness_to_packing.py` | import the published packings for `n ≤ 324` |
-| `gobel_packings.py` | Goebel's centred-diagonal-block family |
+| `gobel_packings.py` | Goebel's block and strip families, Friedman's off-centre variant |
 | `lift_packings.py` | L-lift and delete closure over `best/` |
 | `merge_best.py` | merges `best/` into a gated submission |
 | `make_submission.py` | runs the whole pipeline in order |
@@ -148,7 +148,7 @@ per-puzzle results that lifting does not explain.
 | `build_notebook.py` | regenerates + executes the maths notebook |
 | `build_visual_notebook.py` | regenerates + executes the visual notebook |
 | `make_figures.py` | regenerates `figures/` |
-| `submission_final.csv` | the current submission, 23.1527917816 |
+| `submission_final.csv` | the current submission, 22.9888002453 |
 | `figures/` | all images, regenerable |
 
 ## 7. Running it
