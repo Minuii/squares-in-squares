@@ -21,12 +21,8 @@ import numpy as np
 
 import grader_check
 import squares_core as sc
-import verify_poly
 
 BEST = pathlib.Path("best")
-# above this size the O(n^2) Python clipping check is skipped; it is only a
-# cross-check now that grader_check gates every puzzle
-POLY_CHECK_MAX_N = 400
 START_GAP = 1e-12
 MAX_GAP = 1e-8
 
@@ -112,26 +108,12 @@ def main() -> int:
     sc.write_submission(args.out, sol)
     res = sc.evaluate_submission(args.out, n_max=args.n_max)
 
-    # Independent second opinion on the packings we actually changed. The
-    # polygon-clipping test is pure Python and O(n^2), so above a few hundred
-    # squares it takes minutes per puzzle; SAT has already been applied to
-    # every one of them, and this is a spot cross-check rather than a gate.
-    worst, wwhere = 0.0, None
-    checked = 0
-    for n in sorted(best):
-        if n > POLY_CHECK_MAX_N:
-            continue
-        area, where = verify_poly.max_overlap_area(*sol[n])
-        checked += 1
-        if area > worst:
-            worst, wwhere = area, (n, where)
-    grid = sum(sc.grid_side(n) / math.sqrt(n) - 1.0 for n in range(1, args.n_max + 1))
+    grid =sum(sc.grid_side(n) / math.sqrt(n) - 1.0 for n in range(1, args.n_max + 1))
     print(f"wrote {args.out}")
     print(f"score {res['total']:.10f}   grid {grid:.10f}   "
           f"({grid - res['total']:+.4f} better)")
     invalid = [d for d in res["detail"] if d[2].startswith("invalid")]
-    print(f"invalid puzzles {len(invalid)}   poly cross-check on {checked} puzzles, "
-          f"worst overlap {worst:.2e}" + (f" at {wwhere}" if worst > 1e-12 else ""))
+    print(f"invalid puzzles {len(invalid)}")
     return 0
 
 

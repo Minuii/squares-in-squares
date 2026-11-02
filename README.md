@@ -8,14 +8,16 @@ Each puzzle scores `L/√n − 1`, where `L` is the side of the tightest
 axis-aligned square around the packing. The leaderboard is the sum over all
 1000 puzzles, and lower is better.
 
-**Current score: 22.9888002453**, confirmed on Kaggle (22.9888002452). All 1000
+**Current score: 22.2570079095** locally, with 0 puzzles rejected. The previous file, 22.9888,
+was confirmed on Kaggle at 22.9888002452. All 1000
 puzzles pass a check built from the metric's own rules, which predicted the
 Kaggle score to 1e-10.
 
 | reference (2026-11-02) | score |
 |---|---:|
 | all-grid baseline | 28.9377 |
-| this repository | 22.9888 |
+| this repository | 22.2570 |
+| this repository, own packings only | 22.9888 |
 | best merge of public packings | 22.2591 |
 | #1 on the leaderboard | 22.0544 |
 
@@ -27,6 +29,7 @@ Kaggle score to 1e-10.
 | Goebel's centred diagonal block for `n > 324` | `gobel_packings.py` | 1.2027 |
 | L-lift and delete closure | `lift_packings.py` | 1.4141 |
 | Friedman's off-centre family and Göbel's diagonal strip, then lifted | `gobel_packings.py` | 0.1640 |
+| Public packings, Living Atlas output (614 puzzles) | `merge_public.py` | 0.7318 |
 
 The L-lift adds an L-shaped strip of `2⌊L⌋ + 1` unit squares to a packing of
 side `L`:
@@ -102,6 +105,12 @@ Code here is under the Apache License 2.0, see [`LICENSE`](LICENSE).
 - **Grader logic.** `grader_check.py` follows Kaggle's
   [metric notebook](https://www.kaggle.com/code/metric/squares-in-squares),
   Apache 2.0.
+- **Public packings.** 614 puzzles, listed in `best/provenance.json`, come from the
+  output of malyshevdanil's
+  [Living Atlas of Tight Packings](https://www.kaggle.com/code/malyshevdanil/squares-in-squares-living-atlas-of-tight-packings)
+  (Apache 2.0), which merges about 50 public notebooks and credits each of them.
+  Whether Kaggle's rule C.14(a) allows submitting public packings has no official
+  answer yet; removing the files listed in `best/provenance.json` reverts to own work.
 - **Contact LP.** `contact_polish.py` is adapted from lightningv08's
   [CUDA Packing Search](https://www.kaggle.com/code/lightningv08/squares-in-squares-cuda-packing-search)
   (Apache 2.0), as carried in malyshevdanil's

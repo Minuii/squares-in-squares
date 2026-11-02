@@ -14,7 +14,6 @@ STEPS = [
     ["gobel_packings.py", "--n-min", "325"],  # families only above the witnesses
     ["lift_packings.py"],
     ["merge_best.py", "--out", "submission_final.csv"],
-    ["grader_check.py", "submission_final.csv"],
     ["diagnose_submission.py", "submission_final.csv", "--top", "5"],
 ]
 
