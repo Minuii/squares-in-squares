@@ -8,7 +8,7 @@ Rules of engagement (plan.md):
   * gate            -- grader_check must accept every puzzle; one that keeps
                        failing falls back to the grid
 
-    python merge_best.py --out submission_final.csv
+    python src/merge_best.py --out submission_final.csv
 """
 from __future__ import annotations
 

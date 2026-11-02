@@ -129,41 +129,41 @@ per-puzzle results that lifting does not explain.
 
 | file | what it is |
 |---|---|
-| `description.md` | this document |
-| `plan.md` | the operational plan, phases and acceptance tests |
-| `packing_unit_squares.ipynb` | mathematics: floor, proof, known table, validator, optimiser, submission writer |
-| `visual_tour.ipynb` | pictures: gallery, perfect squares, the `n=5` construction, `k²−1`/`k²−2`, `L(n)` chart |
-| `squares_core.py` | geometry, exact SAT non-overlap test, grid, shrink-wrap, submission I/O |
-| `verify_poly.py` | independent overlap test (polygon clipping + shoelace) |
-| `viz.py` | drawing code (Pillow) |
-| `frontier.py` | reads the leaderboard table and reports where the openings are |
-| `diagnose_submission.py` | re-validates a submission CSV and scores it |
-| `grader_check.py` | rejects what the Kaggle metric rejects; the submission gate |
-| `fetch_witnesses.py`, `witness_to_packing.py` | import the published packings for `n ≤ 324` |
-| `gobel_packings.py` | Goebel's block and strip families, Friedman's off-centre variant |
-| `lift_packings.py` | L-lift and delete closure over `best/` |
-| `merge_best.py` | merges `best/` into a gated submission |
+| `docs/description.md` | this document |
+| `docs/plan.md` | the operational plan, phases and acceptance tests |
+| `notebooks/packing_unit_squares.ipynb` | mathematics: floor, proof, known table, validator, optimiser, submission writer |
+| `notebooks/visual_tour.ipynb` | pictures: gallery, perfect squares, the `n=5` construction, `k²−1`/`k²−2`, `L(n)` chart |
+| `src/squares_core.py` | geometry, exact SAT non-overlap test, grid, shrink-wrap, submission I/O |
+| `src/verify_poly.py` | independent overlap test (polygon clipping + shoelace) |
+| `src/viz.py` | drawing code (Pillow) |
+| `experiments/frontier.py` | reads the leaderboard table and reports where the openings are |
+| `src/diagnose_submission.py` | re-validates a submission CSV and scores it |
+| `src/grader_check.py` | rejects what the Kaggle metric rejects; the submission gate |
+| `src/fetch_witnesses.py`, `src/witness_to_packing.py` | import the published packings for `n ≤ 324` |
+| `src/gobel_packings.py` | Goebel's block and strip families, Friedman's off-centre variant |
+| `src/lift_packings.py` | L-lift and delete closure over `best/` |
+| `src/merge_best.py` | merges `best/` into a gated submission |
 | `make_submission.py` | runs the whole pipeline in order |
 | `best/` | best packing found for each `n` |
-| `build_notebook.py` | regenerates + executes the maths notebook |
-| `build_visual_notebook.py` | regenerates + executes the visual notebook |
-| `make_figures.py` | regenerates `figures/` |
+| `notebooks/build_notebook.py` | regenerates + executes the maths notebook |
+| `notebooks/build_visual_notebook.py` | regenerates + executes the visual notebook |
+| `notebooks/make_figures.py` | regenerates `figures/` |
 | `submission_final.csv` | the current submission, 22.2570079095 |
 | `figures/` | all images, regenerable |
 
 ## 7. Running it
 
 ```bash
-python make_submission.py              # rebuild the submission, about 15 minutes
-python grader_check.py submission_final.csv
-python make_figures.py                 # refresh pictures
-python build_notebook.py               # rebuild + execute the maths notebook
-python build_visual_notebook.py        # rebuild + execute the visual notebook
-python frontier.py --clipboard         # analyse the leaderboard table
-python diagnose_submission.py submission_final.csv
+python make_submission.py                  # rebuild the submission, about 15 minutes
+python src/grader_check.py submission_final.csv
+python notebooks/make_figures.py           # refresh pictures
+python notebooks/build_notebook.py         # rebuild + execute the maths notebook
+python notebooks/build_visual_notebook.py  # rebuild + execute the visual notebook
+python experiments/frontier.py --clipboard # analyse the leaderboard table
+python src/diagnose_submission.py submission_final.csv
 ```
 
-`frontier.py` accepts a file, `-` for stdin, or `--clipboard` (default). It
+`experiments/frontier.py` accepts a file, `-` for stdin, or `--clipboard` (default). It
 wants tab-separated rows `n <TAB> L <TAB> team <TAB> date`; the header is
 ignored.
 

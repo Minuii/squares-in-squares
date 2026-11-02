@@ -1,7 +1,7 @@
 """polish_best.py -- try to shrink every non-grid packing in best/ with the
 contact LP polisher, keeping only strict improvements.
 
-    python polish_best.py --seconds 20
+    python src/polish_best.py --seconds 20
 
 Grid packings are skipped: the polisher cannot beat them this way. Workers
 only compute; the parent validates and is the only process that writes files.

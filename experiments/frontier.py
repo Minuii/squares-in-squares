@@ -8,9 +8,9 @@ The leaderboard export looks like
 Tab- or comma-separated; the header is ignored. Any n missing from the file is
 assumed to be at the grid value.
 
-    python frontier.py leaderboard.tsv      # from a file
-    python frontier.py --clipboard          # read the table from the clipboard
-    python frontier.py -                    # read it from stdin
+    python experiments/frontier.py leaderboard.tsv      # from a file
+    python experiments/frontier.py --clipboard          # read the table from the clipboard
+    python experiments/frontier.py -                    # read it from stdin
 """
 
 from __future__ import annotations
@@ -43,8 +43,8 @@ def file_text(path: str) -> str:
     except FileNotFoundError:
         raise SystemExit(
             f"no such file: {path}\n"
-            "  copy the leaderboard table, then run:  python frontier.py --clipboard\n"
-            "  or save it as leaderboard.tsv and run: python frontier.py leaderboard.tsv"
+            "  copy the leaderboard table, then run:  python experiments/frontier.py --clipboard\n"
+            "  or save it as leaderboard.tsv and run: python experiments/frontier.py leaderboard.tsv"
         )
 
 

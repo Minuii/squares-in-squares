@@ -7,6 +7,9 @@ the shrink-wrap optimiser can beat k only once j > k, i.e. only in the
 """
 import time
 import numpy as np
+import pathlib
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import squares_core as sc
 
 def probe(k, js, rounds=30, iters=250, seed=0):

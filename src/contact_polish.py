@@ -19,7 +19,7 @@ failure.
 
 A packing here is an (n, 3) array of (x, y, theta).
 
-    python contact_polish.py --n 376        # try one puzzle
+    python src/contact_polish.py --n 376        # try one puzzle
 """
 from __future__ import annotations
 

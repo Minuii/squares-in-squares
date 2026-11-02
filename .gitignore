@@ -1,14 +1,21 @@
+# environment and caches
 .venv/
 __pycache__/
 _vendor/
+
+# downloaded or generated data, kept locally
 literature/
-best_backup_before_lift/
-rules.md
-squares-in-squares-per-puzzle-leaderboard.ipynb
-squares-in-squares-publicleaderboard-*/
+public/
+found/
+found_*/
+ext/
+local/
+scratch/
 *.csv
 *.zip
 !submission_final.csv
-found/
-found_*/
-public/
+
+# stray temp files from pip and torch
+pip-*/
+tmp*
+torchinductor_*/

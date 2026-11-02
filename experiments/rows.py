@@ -18,8 +18,8 @@ sit 1 from every centre on n=994), and dropping 3 squares into the largest
 holes then relaxing at fixed L stalls at penetration 0.04 (0.3 with rotation
 noise). Sheared rows are locked: a row cannot slide without entering the next.
 
-    python rows.py 930 994          # search, store_best on success
-    python rows.py --check          # self-check
+    python experiments/rows.py 930 994          # search, store_best on success
+    python experiments/rows.py --check          # self-check
 """
 from __future__ import annotations
 
@@ -31,6 +31,9 @@ import numpy as np
 from scipy.optimize import brentq
 from scipy.spatial import cKDTree
 
+import pathlib
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import contact_polish as cp
 import squares_core as sc
 

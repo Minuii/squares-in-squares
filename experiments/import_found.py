@@ -4,7 +4,7 @@ Each nNNN.npz is checked for size and overlap and stored only if it beats
 best/. Afterwards run make_submission.py, which lifts the new seeds, gates
 everything with grader_check and writes the submission.
 
-    python import_found.py found/
+    python experiments/import_found.py found/
 """
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ import sys
 
 import numpy as np
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import squares_core as sc
 
 

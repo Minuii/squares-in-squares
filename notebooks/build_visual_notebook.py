@@ -8,7 +8,7 @@ packings, overlays the numbers, and walks through the four things worth seeing
 The drawing code lives in viz.py and is embedded verbatim, so the notebook is
 self-contained.  Every cell is executed here and its real output is embedded.
 
-Usage:  python build_visual_notebook.py
+Usage:  python notebooks/build_visual_notebook.py
 """
 
 from __future__ import annotations
@@ -25,9 +25,10 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent
-VIZ = (ROOT / "viz.py").read_text(encoding="utf-8")
-OUT = ROOT / "visual_tour.ipynb"
+ROOT = Path(__file__).resolve().parents[1]
+HERE = Path(__file__).resolve().parent
+VIZ = (ROOT / "src" / "viz.py").read_text(encoding="utf-8")
+OUT = HERE / "visual_tour.ipynb"
 
 BANNER = re.compile(r"# -{20,}\n# (.+?)\n# -{20,}\n")
 
@@ -473,6 +474,7 @@ def install_shim(captured: list[str]) -> None:
 
 def main() -> int:
     # compute the search result once, so the cell can carry it as data
+    sys.path.insert(0, str(ROOT / "src"))
     import squares_core as sc
 
     r = sc.shrink(5, rounds=45, iters=350, seed=7)

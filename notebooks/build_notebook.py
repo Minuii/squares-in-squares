@@ -9,7 +9,7 @@ splits it into notebook cells at its section banners, executes every cell in a
 fresh namespace, and embeds the real stdout / figures as cell outputs.  So the
 notebook you open has already been run, and the numbers in it are real.
 
-Usage:  python build_notebook.py
+Usage:  python notebooks/build_notebook.py
 """
 
 from __future__ import annotations
@@ -24,9 +24,10 @@ import types
 from contextlib import redirect_stdout
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-CORE = (ROOT / "squares_core.py").read_text(encoding="utf-8")
-OUT = ROOT / "packing_unit_squares.ipynb"
+ROOT = Path(__file__).resolve().parents[1]
+HERE = Path(__file__).resolve().parent
+CORE = (ROOT / "src" / "squares_core.py").read_text(encoding="utf-8")
+OUT = HERE / "packing_unit_squares.ipynb"
 FIGDIR = "figures"
 
 

@@ -8,7 +8,7 @@ they can be credited, or removed if the rules turn out to forbid them.
 make_submission.py then lifts, expands every contact by 1e-12 and gates each
 puzzle with grader_check, exactly as for our own packings.
 
-    python merge_public.py public/living_atlas.csv [more.csv ...]
+    python src/merge_public.py public/living_atlas.csv [more.csv ...]
     python make_submission.py
 """
 from __future__ import annotations

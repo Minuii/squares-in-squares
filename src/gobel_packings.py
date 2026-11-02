@@ -11,8 +11,8 @@ Because deleting squares can only shrink the bounding box, the family also
 serves every n <= count(a, b). That is what makes it useful above the
 literature's n = 324 boundary, where nothing else is published.
 
-    python gobel_packings.py            # write best/nNNN.npz where it wins
-    python gobel_packings.py --report
+    python src/gobel_packings.py            # write best/nNNN.npz where it wins
+    python src/gobel_packings.py --report
 """
 from __future__ import annotations
 

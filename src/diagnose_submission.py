@@ -1,8 +1,8 @@
 """
 diagnose_submission.py -- read a submission CSV and say where the points are.
 
-    python diagnose_submission.py submission.csv
-    python diagnose_submission.py submission.csv --no-check   # skip validation
+    python src/diagnose_submission.py submission.csv
+    python src/diagnose_submission.py submission.csv --no-check   # skip validation
 
 It recomputes everything from the coordinates (it does not trust the file),
 scores each puzzle exactly as the leaderboard does, and ranks the puzzles by

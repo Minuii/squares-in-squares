@@ -25,8 +25,8 @@ overlap is that radius minus the largest projection of the centre gap.
 Found packings go to --out as nNNN.npz; bring them home with import_found.py,
 which only keeps strict improvements, then run make_submission.py.
 
-    python gpu_search.py --n 376 --minutes 10
-    python gpu_search.py --auto 20 --minutes 120 --out found
+    python experiments/gpu_search.py --n 376 --minutes 10
+    python experiments/gpu_search.py --auto 20 --minutes 120 --out found
 """
 from __future__ import annotations
 
@@ -39,6 +39,8 @@ import time
 import numpy as np
 import torch
 
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import contact_polish as cp
 import squares_core as sc
 

@@ -3,7 +3,7 @@
 A start-to-finish account of this repository's work on the Kaggle competition
 [Squares in Squares](https://www.kaggle.com/competitions/squares-in-squares),
 from the all-grid baseline at **28.94** to the current file at **22.2570**.
-The executed companion is [`walkthrough.ipynb`](walkthrough.ipynb), which
+The executed companion is [`walkthrough.ipynb`](notebooks/walkthrough.ipynb), which
 rebuilds every number and picture below from `best/` and the scripts.
 
 ---
@@ -31,12 +31,12 @@ The trivial packing, a `⌈√n⌉ × ⌈√n⌉` grid, scores **28.9377**.
 | step | script | gain | running score |
 |---|---|---:|---:|
 | all-grid baseline | `squares_core.grid` | | 28.94 |
-| published best-known packings, `n ≤ 324` | `fetch_witnesses.py`, `witness_to_packing.py` | 3.0346 | |
-| Göbel's centred diagonal block, `n > 324` | `gobel_packings.py` | 1.2027 | |
-| L-lift and delete closure | `lift_packings.py` | 1.4141 | 23.15 |
-| Friedman's off-centre family, Göbel's diagonal strip, lifted | `gobel_packings.py` | 0.1640 | **22.9888** (own work, confirmed on Kaggle) |
-| public packings from the Living Atlas output, 614 puzzles | `merge_public.py` | 0.7318 | **22.2570079** (confirmed on Kaggle) |
-| contact-LP polish of `best/` | `polish_best.py` | 1.8e-8 | 22.2570078917 |
+| published best-known packings, `n ≤ 324` | `src/fetch_witnesses.py`, `src/witness_to_packing.py` | 3.0346 | |
+| Göbel's centred diagonal block, `n > 324` | `src/gobel_packings.py` | 1.2027 | |
+| L-lift and delete closure | `src/lift_packings.py` | 1.4141 | 23.15 |
+| Friedman's off-centre family, Göbel's diagonal strip, lifted | `src/gobel_packings.py` | 0.1640 | **22.9888** (own work, confirmed on Kaggle) |
+| public packings from the Living Atlas output, 614 puzzles | `src/merge_public.py` | 0.7318 | **22.2570079** (confirmed on Kaggle) |
+| contact-LP polish of `best/` | `src/polish_best.py` | 1.8e-8 | 22.2570078917 |
 | `--refresh`: 36 newer public packings | `make_submission.py --refresh` | 2.2e-5 | **22.2569857** (current, local) |
 
 For scale on 2026-11-02: #1 on the leaderboard was 22.0544, and the aggregate
@@ -66,10 +66,10 @@ What the metric actually does:
 
 Our response:
 
-- `merge_best.py` expands every packing by a factor of `1 + 1e-12` about its
+- `src/merge_best.py` expands every packing by a factor of `1 + 1e-12` about its
   centroid. Centre distances only grow, so every contact opens. Cost: about
   1e-9 of total score.
-- `grader_check.py` re-implements the metric's rules and runs on the
+- `src/grader_check.py` re-implements the metric's rules and runs on the
   coordinates exactly as written. It predicted Kaggle's score to 1e-10 and is
   the gate for every submission.
 
@@ -80,7 +80,7 @@ Our response:
 [The Squares Project](https://github.com/jlevy/squares) (CC BY 4.0) publishes
 best-known packings as "witnesses" in three formats: `corners` (175 files),
 `center-basis` (75) and `center-angle` (74), including 10 in algebraic number
-fields and 4 with angles in radians. `witness_to_packing.py` converts them all,
+fields and 4 with angles in radians. `src/witness_to_packing.py` converts them all,
 normalises the side to unit squares, and stores them in `best/`. Gain: 3.03.
 
 ### 4.2 Göbel's centred diagonal block for `n > 324`
@@ -101,7 +101,7 @@ squares along the top and right:
 s(n + 2⌊s(n)⌋ + 1) ≤ s(n) + 1
 ```
 
-With the companion rule "delete a square from `n + 1`", `lift_packings.py`
+With the companion rule "delete a square from `n + 1`", `src/lift_packings.py`
 closes `best/` under both until nothing changes. One good seed improves a whole
 chain: `842 → 901 → 962` are lifts of each other, which is why `n = k² + 1`
 shares digits across `k = 29, 30, 31`. 230 puzzles improved. Gain: 1.41.
@@ -125,7 +125,7 @@ validity condition, which admits impossible packings such as `n = 21` at
 ### 4.5 Public packings
 
 About 1,000 of the 1,398 teams on the leaderboard sat between 22.18 and 22.72,
-because public notebooks merge everyone's published packings. `merge_public.py`
+because public notebooks merge everyone's published packings. `src/merge_public.py`
 imports a public `submission.csv`, re-certifies each puzzle with the grader
 rules, and keeps only improvements, recording the source of each in
 `best/provenance.json`. From malyshevdanil's
@@ -141,11 +141,11 @@ packings has no official answer yet. Deleting the files listed in
 
 | attempt | result | why |
 |---|---|---|
-| `shrink`, `sa_feasible` in `squares_core.py` | no records | `shrink` never leaves the grid; `sa_feasible` only polishes |
-| contact-LP polisher (`contact_polish.py`) on our packings | gain 0 | our packings are jammed: the LP's best step is `dL ≈ +7e-10` |
+| `shrink`, `sa_feasible` in `src/squares_core.py` | no records | `shrink` never leaves the grid; `sa_feasible` only polishes |
+| contact-LP polisher (`src/contact_polish.py`) on our packings | gain 0 | our packings are jammed: the LP's best step is `dL ≈ +7e-10` |
 | same LP after a random kick | worse | a kick large enough to unjam costs 1–2% of `L`; 300 LP steps recover 15–25% of it |
-| same LP over the 547 public packings (`polish_best.py`) | 1.8e-8 total | they are already polished; 95% of the gain was at `n = 916` |
-| batched penalty search (`gpu_search.py`) | fails below the record | angle errors add up along rows of 16–20 squares, and the penalty settles in tangled minima with `E ≈ 1e-4` |
+| same LP over the 547 public packings (`src/polish_best.py`) | 1.8e-8 total | they are already polished; 95% of the gain was at `n = 916` |
+| batched penalty search (`experiments/gpu_search.py`) | fails below the record | angle errors add up along rows of 16–20 squares, and the penalty settles in tangled minima with `E ≈ 1e-4` |
 | a private GPU search kernel on Kaggle | did not run | the account received no GPU or internet; staged for later |
 
 The contact LP is sound; it needs unjammed starting packings, which is what the
@@ -176,10 +176,10 @@ public GPU searches provide and what ours do not.
 ```bash
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements.txt
-.venv/Scripts/python fetch_witnesses.py
+.venv/Scripts/python src/fetch_witnesses.py
 .venv/Scripts/python make_submission.py             # rebuild from best/
 .venv/Scripts/python make_submission.py --refresh   # pull newer public packings first
-.venv/Scripts/python build_walkthrough_notebook.py  # rebuild walkthrough.ipynb
+.venv/Scripts/python notebooks/build_walkthrough_notebook.py # rebuild notebooks/walkthrough.ipynb
 ```
 
 `make_submission.py` takes about 15 minutes on 8 cores, writes

@@ -7,8 +7,8 @@
 Both are repeated until nothing changes. A packing is written to best/ only if
 it beats what is there, so this is safe to rerun.
 
-    python lift_packings.py            # update best/
-    python lift_packings.py --report
+    python src/lift_packings.py            # update best/
+    python src/lift_packings.py --report
 """
 from __future__ import annotations
 

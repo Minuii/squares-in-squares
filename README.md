@@ -26,11 +26,11 @@ Kaggle score to 1e-10.
 
 | step | script | gain |
 |---|---|---:|
-| Published best-known packings for `n ≤ 324` | `witness_to_packing.py` | 3.0346 |
-| Goebel's centred diagonal block for `n > 324` | `gobel_packings.py` | 1.2027 |
-| L-lift and delete closure | `lift_packings.py` | 1.4141 |
-| Friedman's off-centre family and Göbel's diagonal strip, then lifted | `gobel_packings.py` | 0.1640 |
-| Public packings, Living Atlas output (614 puzzles) | `merge_public.py` | 0.7318 |
+| Published best-known packings for `n ≤ 324` | `src/witness_to_packing.py` | 3.0346 |
+| Goebel's centred diagonal block for `n > 324` | `src/gobel_packings.py` | 1.2027 |
+| L-lift and delete closure | `src/lift_packings.py` | 1.4141 |
+| Friedman's off-centre family and Göbel's diagonal strip, then lifted | `src/gobel_packings.py` | 0.1640 |
+| Public packings, Living Atlas output (614 puzzles) | `src/merge_public.py` | 0.7318 |
 
 The L-lift adds an L-shaped strip of `2⌊L⌋ + 1` unit squares to a packing of
 side `L`:
@@ -50,8 +50,8 @@ puzzle fails quietly by scoring as the plain grid. Three things matter:
   rejected too.
 - Kaggle reads coordinates as doubles, so certify the doubles, not the text.
 
-`merge_best.py` opens every contact with a 1e-12 expansion, which costs about
-1e-9 of score, and `grader_check.py` then applies the metric's rules to the
+`src/merge_best.py` opens every contact with a 1e-12 expansion, which costs about
+1e-9 of score, and `src/grader_check.py` then applies the metric's rules to the
 coordinates as written.
 
 ## Running it
@@ -61,7 +61,7 @@ Needs 64-bit Python 3.14.
 ```bash
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements.txt
-.venv/Scripts/python fetch_witnesses.py
+.venv/Scripts/python src/fetch_witnesses.py
 .venv/Scripts/python make_submission.py             # rebuild from best/
 .venv/Scripts/python make_submission.py --refresh   # pull newest public packings first
 ```
@@ -73,31 +73,34 @@ Kaggle CLI, which needs an API token in `~/.kaggle/access_token`, and merges it 
 
 ## Layout
 
+Run everything from the repository root.
+
 | path | contents |
 |---|---|
-| `best/` | best packing found for each `n` |
-| `submission_final.csv` | the current submission |
 | `make_submission.py` | the whole pipeline, in order |
-| `grader_check.py` | the submission gate |
-| `merge_public.py` | imports a public submission file into `best/`, recording sources |
-| `contact_polish.py` | trust-region sequential LP polisher, not in the pipeline |
-| `gpu_search.py`, `import_found.py` | batched penalty search, experimental: finds nothing yet |
-| `squares_core.py` | geometry, validators, submission I/O |
-| `plan.md` | findings, status and next steps |
-| `description.md` | the problem, the metric and the known results |
-| `packing_unit_squares.ipynb`, `visual_tour.ipynb` | executed notebooks |
-| `WALKTHROUGH.md`, `walkthrough.ipynb` | the whole project told in order; the notebook is executed and rebuilt by `build_walkthrough_notebook.py` |
+| `submission_final.csv` | the current submission |
+| `best/` | best packing found for each `n` |
+| `src/` | the pipeline steps and shared code |
+| `src/squares_core.py` | geometry, validators, submission I/O |
+| `src/grader_check.py` | the submission gate |
+| `src/merge_public.py` | imports a public submission file into `best/`, recording sources |
+| `src/contact_polish.py` | trust-region sequential LP polisher, not in the pipeline |
+| `experiments/` | one-off probes and searches that did not make the pipeline, such as the batched penalty search in `gpu_search.py` |
+| `notebooks/` | executed notebooks and the scripts that build them |
+| `docs/plan.md` | findings, status and next steps |
+| `docs/description.md` | the problem, the metric and the known results |
+| `WALKTHROUGH.md` | the whole project told in order; executed as `notebooks/walkthrough.ipynb` |
 | `figures/` | generated images |
 
 ## Next steps
 
-- Run `contact_polish.py` over the public packings. They are unjammed,
+- Run `src/contact_polish.py` over the public packings. They are unjammed,
   which is where it gains, unlike our own constructions.
 - New packings for the 387 records that lifting cannot explain.
 - Search for better seeds, ranked by how far an improvement lifts.
 - Attack the puzzles just past the sub-grid frontier.
 
-Details are in [`plan.md`](plan.md).
+Details are in [`docs/plan.md`](docs/plan.md).
 
 ## Credits and licence
 
@@ -107,7 +110,7 @@ Code here is under the Apache License 2.0, see [`LICENSE`](LICENSE).
   packings derived from them, come from
   [The Squares Project](https://github.com/jlevy/squares) and are used under
   CC BY 4.0. Coordinates were normalised and expanded slightly.
-- **Grader logic.** `grader_check.py` follows Kaggle's
+- **Grader logic.** `src/grader_check.py` follows Kaggle's
   [metric notebook](https://www.kaggle.com/code/metric/squares-in-squares),
   Apache 2.0.
 - **Public packings.** 614 puzzles, listed in `best/provenance.json`, come from the
@@ -116,7 +119,7 @@ Code here is under the Apache License 2.0, see [`LICENSE`](LICENSE).
   (Apache 2.0), which merges about 50 public notebooks and credits each of them.
   Whether Kaggle's rule C.14(a) allows submitting public packings has no official
   answer yet; removing the files listed in `best/provenance.json` reverts to own work.
-- **Contact LP.** `contact_polish.py` is adapted from lightningv08's
+- **Contact LP.** `src/contact_polish.py` is adapted from lightningv08's
   [CUDA Packing Search](https://www.kaggle.com/code/lightningv08/squares-in-squares-cuda-packing-search)
   (Apache 2.0), as carried in malyshevdanil's
   [Living Atlas of Tight Packings](https://www.kaggle.com/code/malyshevdanil/squares-in-squares-living-atlas-of-tight-packings)

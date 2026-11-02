@@ -1,7 +1,7 @@
 """
 make_figures.py -- regenerate the figures used by README.md.
 
-    python make_figures.py
+    python notebooks/make_figures.py
 
 Writes into figures/.  The visual notebook builds the same pictures itself
 (it embeds viz.py), so the two never disagree.
@@ -14,6 +14,9 @@ from pathlib import Path
 
 import numpy as np
 
+import pathlib
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import squares_core as sc
 import viz
 

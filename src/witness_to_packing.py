@@ -15,8 +15,8 @@ A fourth scalar kind, algebraic-number-field (10 cases: 51, 70, 102, 123, 153,
 207, 258, 259, 295, 302), encodes coordinates as polynomials in a generator.
 `flatten` rewrites those as plain floats first.
 
-    python witness_to_packing.py            # parse + validate + store
-    python witness_to_packing.py --report   # summary only
+    python src/witness_to_packing.py            # parse + validate + store
+    python src/witness_to_packing.py --report   # summary only
 """
 from __future__ import annotations
 

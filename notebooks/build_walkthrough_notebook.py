@@ -8,7 +8,7 @@ failed) and recomputes every number from best/ and submission_final.csv.
 Cells import the repository's own modules, so the notebook must be opened from
 the repository root. Every cell is executed here and its output embedded.
 
-Usage:  python build_walkthrough_notebook.py
+Usage:  python notebooks/build_walkthrough_notebook.py
 """
 
 from __future__ import annotations
@@ -21,8 +21,9 @@ import traceback
 from contextlib import redirect_stdout
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-OUT = ROOT / "walkthrough.ipynb"
+ROOT = Path(__file__).resolve().parents[1]
+HERE = Path(__file__).resolve().parent
+OUT = HERE / "walkthrough.ipynb"
 
 CELLS: list[tuple[str, str]] = []
 
@@ -446,9 +447,9 @@ Next:
 To rebuild everything:
 
 ```bash
-python fetch_witnesses.py
+python src/fetch_witnesses.py
 python make_submission.py            # about 15 minutes on 8 cores
-python build_walkthrough_notebook.py # this notebook
+python notebooks/build_walkthrough_notebook.py # this notebook
 ```
 """)
 
@@ -457,7 +458,7 @@ python build_walkthrough_notebook.py # this notebook
 # execute and write
 # ==========================================================================
 def main() -> int:
-    sys.path.insert(0, str(ROOT))
+    sys.path.insert(0, str(ROOT / "src"))
     import os
     os.chdir(ROOT)
 

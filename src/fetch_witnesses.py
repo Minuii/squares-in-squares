@@ -5,7 +5,7 @@ Witness/v2 YAML (coordinates in rational / algebraic / decimal form).
 This downloads them from raw.githubusercontent.com into
 literature/witnesses/known-best/ so the parser can work offline.
 
-    python fetch_witnesses.py
+    python src/fetch_witnesses.py
 """
 from __future__ import annotations
 

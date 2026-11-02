@@ -20,14 +20,14 @@ PUBLIC = "malyshevdanil/squares-in-squares-living-atlas-of-tight-packings"
 REFRESH = [
     KAGGLE + ["kernels", "output", PUBLIC, "-p", "public", "-o",
               "--file-pattern", r"^submission\.csv$"],
-    PY + ["merge_public.py", "public/submission.csv"],
+    PY + ["src/merge_public.py", "public/submission.csv"],
 ]
 STEPS = [
-    PY + ["witness_to_packing.py", "--skip-poly"],
-    PY + ["gobel_packings.py", "--n-min", "325"],  # families only above the witnesses
-    PY + ["lift_packings.py"],
-    PY + ["merge_best.py", "--out", "submission_final.csv"],
-    PY + ["diagnose_submission.py", "submission_final.csv", "--top", "5"],
+    PY + ["src/witness_to_packing.py", "--skip-poly"],
+    PY + ["src/gobel_packings.py", "--n-min", "325"],  # families only above the witnesses
+    PY + ["src/lift_packings.py"],
+    PY + ["src/merge_best.py", "--out", "submission_final.csv"],
+    PY + ["src/diagnose_submission.py", "submission_final.csv", "--top", "5"],
 ]
 
 

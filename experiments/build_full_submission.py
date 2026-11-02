@@ -5,7 +5,7 @@ puzzle with the plain grid, and writes submission_full.csv. Score is unchanged
 (missing puzzles are charged the grid anyway) but the file is now complete and
 validated, which is the base every later merge builds on.
 
-    python build_full_submission.py [--src submission.csv] [--out submission_full.csv]
+    python experiments/build_full_submission.py [--src submission.csv] [--out submission_full.csv]
 """
 from __future__ import annotations
 
@@ -13,6 +13,9 @@ import argparse
 import csv
 import numpy as np
 
+import pathlib
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import squares_core as sc
 
 

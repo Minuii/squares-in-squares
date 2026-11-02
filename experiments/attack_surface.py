@@ -3,7 +3,7 @@
 Reads a submission (default submission_final.csv), compares every puzzle's L
 against the grid, and reports the blocks where we are still exactly at the grid.
 
-    python attack_surface.py [submission.csv]
+    python experiments/attack_surface.py [submission.csv]
 """
 from __future__ import annotations
 
@@ -14,6 +14,8 @@ import sys
 
 import numpy as np
 
+import pathlib
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import squares_core as sc
 
 

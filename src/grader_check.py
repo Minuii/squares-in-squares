@@ -9,7 +9,7 @@ undecided at 500 digits. A failed puzzle is charged the grid ceiling.
 Kaggle reads the CSV as correctly rounded doubles, so a packing is checked as
 repr(float), which is also what squares_core.write_submission emits.
 
-    python grader_check.py submission_final.csv
+    python src/grader_check.py submission_final.csv
 """
 from __future__ import annotations
 

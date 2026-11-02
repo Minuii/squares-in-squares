@@ -12,8 +12,8 @@ at 1e-3 tolerance or anchored at the box corners. The best window with 5+
 tilted squares inside still cuts 7 squares (n=994) or 10 (n=457): the blocks
 interlock wall to wall, so these packings have no free flips.
 
-    python flips.py 930 994 --seconds 10
-    python flips.py --check
+    python experiments/flips.py 930 994 --seconds 10
+    python experiments/flips.py --check
 """
 from __future__ import annotations
 
@@ -22,6 +22,9 @@ import math
 
 import numpy as np
 
+import pathlib
+import sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "src"))
 import contact_polish as cp
 import squares_core as sc
 
