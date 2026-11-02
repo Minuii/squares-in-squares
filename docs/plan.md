@@ -195,6 +195,27 @@ squares (`n = 994`) or 10 (`n = 457`): the blocks interlock wall to wall.
 Both results say the same thing: local or discrete edits to these layouts
 have nowhere to go. A gain needs a whole new layout with fillers built in.
 
+### The record gap has no chain roots
+
+Against `public/lb_table.json` (2026-11-01) we are behind on 417 puzzles for
+0.2008 in total, ahead on none. The gap is spread thin (at most 0.0015 per
+puzzle) and 80% of it sits at `n > 400`. Treating each record as a seed and
+closing under lift and delete, 409 of the 417 are independent roots: the
+records are not lifts of a few good packings. Almost all belong to one team
+("Cats and boxes"), and similar puzzles have slightly different fractional
+parts (.7939, .7941, .7938 at `n = 803, 544, 498`), so they look like
+per-puzzle numerical optima, not exact constructions. Matching the best
+single root (`n = 911`) is worth 0.0041 after lifting; the top 30 roots
+together, 0.075.
+
+Our weakest packings are the 45° diagonal strip at integer + 1/√2
+(`n = 795, 852, 853, 911, 912, 973`, about 0.017 together). The pinwheel of
+`rows.py` does not beat even those: just below our `L` it fits 908 of 911,
+848 of 853, 790 of 795 and 968 of 973.
+
+The crop rule (the reverse of lift, every subset size, now in
+`lift_packings.py`) gains 1.9e-10 on `best/`, so `best/` is closed under it.
+
 ---
 
 ## Next
@@ -206,9 +227,10 @@ have nowhere to go. A gain needs a whole new layout with fillers built in.
 3. **New starting packings.** Make unjammed candidates for the polisher with a
    global search (L-BFGS on a penalty, on GPU as the public code does), or with
    new constructions. Row layouts without fillers and free flips are ruled out
-   (see above).
-4. **Search seeds, ranked by chain value.** An improvement at `n` counts once
-   for every lift it propagates to.
+   (see above). The remaining gap needs a per-puzzle global optimizer run
+   from fresh starts, not edits to our layouts.
+4. ~~Search seeds, ranked by chain value.~~ Done 2026-11-02: the record gap
+   has no chain roots worth more than 0.004 each (see above).
 5. **Attack the frontier** at `k² − (j_min − 1)`.
 
 ---
