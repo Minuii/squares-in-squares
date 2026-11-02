@@ -9,3 +9,5 @@ squares-in-squares-publicleaderboard-*/
 *.csv
 *.zip
 !submission_final.csv
+found/
+found_*/

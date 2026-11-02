@@ -135,6 +135,29 @@ In the public notebook the same LP gains 0.0002–0.0015 per puzzle, because it
 is applied to public and GPU-searched packings that are not jammed. The
 polisher needs a better start, not more time.
 
+### Penalty search fails on these packings
+
+`gpu_search.py` is a batched penalty search: jittered starts, Adam with a
+shrinking box and growing squares, then L-BFGS in float64. It runs on CPU or
+GPU, and `import_found.py` brings results home. Measured on CPU, 2026-11-02:
+
+| test | result |
+|---|---|
+| no noise, target `L + 0.001`, `n = 260` | succeeds, a plumbing check |
+| noise 1e-4, target `L + 0.001` | fails |
+| noise 0.002, target `L − 1e-4`, `n = 206, 260` (records exist 2.6e-5 and 2.7e-4 below) | fails |
+| target `L − 0.005`, `n = 376` | fails |
+| starts from `n + 1` minus one square | always fail |
+
+Tiny angle errors add up along rows of 16–20 squares, so a jittered start no
+longer fits, and the overlap penalty settles in tangled local minima with
+`E ≈ 1e-4` that L-BFGS cannot leave. A Colab notebook was not built, since
+this would only spend GPU time.
+
+What would be needed instead: moves that keep rows rigid (shift or rotate
+whole rows or blocks), or a combinatorial search over layouts, with the
+contact LP as the finisher.
+
 ---
 
 ## Next

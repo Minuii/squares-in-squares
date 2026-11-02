@@ -74,6 +74,7 @@ python -m venv .venv
 | `make_submission.py` | the whole pipeline, in order |
 | `grader_check.py` | the submission gate |
 | `contact_polish.py` | trust-region sequential LP polisher, not in the pipeline |
+| `gpu_search.py`, `import_found.py` | batched penalty search, experimental: finds nothing yet |
 | `squares_core.py` | geometry, validators, submission I/O |
 | `plan.md` | findings, status and next steps |
 | `description.md` | the problem, the metric and the known results |

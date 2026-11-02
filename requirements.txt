@@ -5,3 +5,4 @@ mpmath
 gmpy2
 scipy
 pandas
+torch  # only for gpu_search.py
