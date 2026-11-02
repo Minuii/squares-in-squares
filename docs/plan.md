@@ -16,7 +16,7 @@ Figures as of 2026-11-02.
 | thing | value | source |
 |---|---|---|
 | all-grid baseline | 28.9376699166 | computed |
-| **our file (`submission_final.csv`)** | **22.2569857322** | 0 rejected; after the first `--refresh` (36 newer public packings) |
+| **our file (`submission_final.csv`)** | **22.2569857322** | Kaggle scored it 22.2569857321 on 2026-11-02; after the first `--refresh` (36 newer public packings) |
 | previous file | 22.2570079095 | Kaggle scored it 22.2570079095 on 2026-11-02; includes 614 public packings |
 | own packings only | 22.9888002453 | Kaggle scored it 22.9888002452 on 2026-11-02 |
 | best merge of public packings | 22.2570079163 | Living Atlas, newest run |
@@ -220,7 +220,9 @@ The crop rule (the reverse of lift, every subset size, now in
 
 ## Next
 
-1. ~~Upload the merged file~~ Done: Kaggle 22.2570079095.
+1. ~~Upload the merged file~~ Done: Kaggle 22.2570079095, then 22.2569857321
+   after the first `--refresh`. A local scheduled task re-runs
+   `make_submission.py --refresh` every Monday and commits only gains.
 2. ~~Polish the public packings~~ Done 2026-11-02 with `polish_best.py` (547 puzzles,
    20 s each): 6 improved, total gain 1.8e-8, 95% of it at `n = 916`. Score
    22.2570078917. They are effectively polished already; this lever is spent.
