@@ -72,6 +72,7 @@ python -m venv .venv
 | `submission_final.csv` | the current submission |
 | `make_submission.py` | the whole pipeline, in order |
 | `grader_check.py` | the submission gate |
+| `contact_polish.py` | trust-region sequential LP polisher, not in the pipeline |
 | `squares_core.py` | geometry, validators, submission I/O |
 | `plan.md` | findings, status and next steps |
 | `description.md` | the problem, the metric and the known results |
@@ -80,7 +81,9 @@ python -m venv .venv
 
 ## Next steps
 
-- Build a contact-graph LP polisher.
+- `contact_polish.py` is ported but gains nothing here, because these
+  packings are jammed. It needs unjammed starting packings from a global
+  search.
 - Search for better seeds, ranked by how far an improvement lifts.
 - Attack the puzzles just past the sub-grid frontier.
 
@@ -97,6 +100,12 @@ Code here is under the Apache License 2.0, see [`LICENSE`](LICENSE).
 - **Grader logic.** `grader_check.py` follows Kaggle's
   [metric notebook](https://www.kaggle.com/code/metric/squares-in-squares),
   Apache 2.0.
+- **Contact LP.** `contact_polish.py` is adapted from lightningv08's
+  [CUDA Packing Search](https://www.kaggle.com/code/lightningv08/squares-in-squares-cuda-packing-search)
+  (Apache 2.0), as carried in malyshevdanil's
+  [Living Atlas of Tight Packings](https://www.kaggle.com/code/malyshevdanil/squares-in-squares-living-atlas-of-tight-packings)
+  notebook. The coupled sparse LP idea is credited there to prvsiyan's
+  *A Square Deal*.
 - **Mathematics.** E. Friedman, *Packing Unit Squares in Squares*, Electronic
   Journal of Combinatorics, Dynamic Survey DS7. The block family is due to
   F. Göbel.

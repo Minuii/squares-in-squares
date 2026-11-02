@@ -107,14 +107,37 @@ improvement there is a fresh record.
 
 ---
 
+### The contact-LP polisher finds nothing on our packings
+
+`contact_polish.py` is a port of the trust-region sequential LP from public
+Kaggle code (credits in `README.md`). It is correct, and every output passes
+`repair`, but on our packings it gains nothing, measured 2026-11-02:
+
+| mode | puzzles tried | gain |
+|---|---|---:|
+| polish as is | 376, 457, 19, 338 | 0 |
+| delete a square from `n + 1`, then polish | 376, 417, 457, 338 | 0 |
+| kick by σ = 0.003 or 0.01, expand, polish 60 s | 376, 457, 156, 297 | worse |
+
+The LP's best step is `dL ≈ +7e-10`, so these packings are jammed. Göbel's
+construction is a rigid wall–frame–diamond–frame–wall chain, and the
+witnesses are already optimal locally. A kick big enough to unjam them costs
+1–2% of `L`, and 300 LP steps recover only 15–25% of that.
+
+In the public notebook the same LP gains 0.0002–0.0015 per puzzle, because it
+is applied to public and GPU-searched packings that are not jammed. The
+polisher needs a better start, not more time.
+
+---
+
 ## Next
 
 1. **Upload `submission_final.csv`** and confirm 23.1528.
-2. **Decide on public packings.** Merging them is worth about 0.9. See the
-   compliance note below.
-3. **Build a contact-graph polisher.** Fix the contacts, linearise, solve an LP
-   for `L`, repeat. 33 puzzles with `n ≤ 324` are behind the board by 0.0082 in
-   total, which is the natural test.
+2. **Decide on public packings.** Merging them is worth about 0.9, and
+   `contact_polish.py` can then be run on them. See the compliance note below.
+3. **New starting packings.** Make unjammed candidates for the polisher with a
+   global search (L-BFGS on a penalty, on GPU as the public code does), or with
+   new constructions.
 4. **Search seeds, ranked by chain value.** An improvement at `n` counts once
    for every lift it propagates to.
 5. **Attack the frontier** at `k² − (j_min − 1)`.
