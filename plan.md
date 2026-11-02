@@ -16,7 +16,7 @@ Figures as of 2026-11-02.
 | thing | value | source |
 |---|---|---|
 | all-grid baseline | 28.9376699166 | computed |
-| **our file (`submission_final.csv`)** | **22.9888002453** | 0 rejected by `grader_check.py`, not yet uploaded |
+| **our file (`submission_final.csv`)** | **22.9888002453** | Kaggle scored it 22.9888002452 on 2026-11-02 |
 | best merge of public packings | 22.2591301174 | public notebook |
 | aggregate of every record (2026-11-01) | 22.0562319827 | per-puzzle table |
 | #1 team | 22.0544214515 | leaderboard, 2026-11-02 |
@@ -139,7 +139,7 @@ polisher needs a better start, not more time.
 
 ## Next
 
-1. **Upload `submission_final.csv`** and confirm 22.9888.
+1. ~~Upload and confirm~~ Done: Kaggle 22.9888002452, local 22.9888002453.
 2. **Decide on public packings.** Merging them is worth about 0.9, and
    `contact_polish.py` can then be run on them. See the compliance note below.
 3. **New starting packings.** Make unjammed candidates for the polisher with a
