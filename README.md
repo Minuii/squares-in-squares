@@ -88,6 +88,7 @@ Run everything from the repository root.
 | `experiments/` | one-off probes and searches that did not make the pipeline, such as the batched penalty search in `gpu_search.py` |
 | `notebooks/` | executed notebooks and the scripts that build them |
 | `docs/plan.md` | findings, status and next steps |
+| `docs/progress.md` | dated timeline, one line per session |
 | `docs/description.md` | the problem, the metric and the known results |
 | `WALKTHROUGH.md` | the whole project told in order; executed as `notebooks/walkthrough.ipynb` |
 | `figures/` | generated images |
