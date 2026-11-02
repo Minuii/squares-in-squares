@@ -166,7 +166,9 @@ contact LP as the finisher.
 ## Next
 
 1. ~~Upload the merged file~~ Done: Kaggle 22.2570079095.
-2. **Polish the public packings** with `contact_polish.py`; they are not jammed.
+2. ~~Polish the public packings~~ Done 2026-11-02 with `polish_best.py` (547 puzzles,
+   20 s each): 6 improved, total gain 1.8e-8, 95% of it at `n = 916`. Score
+   22.2570078917. They are effectively polished already; this lever is spent.
 3. **New starting packings.** Make unjammed candidates for the polisher with a
    global search (L-BFGS on a penalty, on GPU as the public code does), or with
    new constructions.
