@@ -183,6 +183,27 @@ dropping 3 squares into the largest holes then relaxing at fixed `L` stalls
 at penetration 0.04 (0.3 with rotation noise). Sheared rows are locked: a
 row cannot slide without entering the next.
 
+### Rounding the squares helps a little, not enough
+
+`round_to_square.py` starts from random layouts of circles and turns them into
+squares (rounded squares, corner radius 0.5 → 0) while the box shrinks, with an
+optional pull toward one corner ("gravity") that fades with the radius. The
+table gives the smallest leftover overlap over 32 random starts, before the
+L-BFGS finish, with the box 0.04–0.08 above the record. Measured on CPU, 2026-11-02:
+
+| n | target (record) | hard squares | rounded | rounded + gravity 0.05 | gravity 0.3 |
+|---|---|---:|---:|---:|---:|
+| 10 | 3.75 (3.7071) | 1.9e-4 | 1.3e-4 | 6.6e-6 | 9.0e-3 |
+| 18 | 4.90 (4.8229) | 1.0e-3 | 1.2e-5 | 5.8e-7 | 2.8e-5 |
+| 27 | 5.75 (5.7071) | 9.3e-3 | 9.0e-3 | 9.0e-3 | 8.9e-3 |
+
+Rounding with weak gravity gives the best starts 10–1000× less overlap than
+hard squares, and strong gravity jams. But no variant gets any start to zero,
+even 1–2% above a record that is decades old. On 16 starts with the full
+finish, `n = 10` first succeeds at `L = 3.8`, with 1 start out of 16 for both
+hard and rounded squares. Random starts cannot reach the structured layouts
+above `n ≈ 30`, so this can be used only as a loosening step on warm starts.
+
 ### Free flips do not exist
 
 A window flip (mirror or rotate everything inside a rectangle that no square
@@ -194,6 +215,78 @@ squares (`n = 994`) or 10 (`n = 457`): the blocks interlock wall to wall.
 
 Both results say the same thing: local or discrete edits to these layouts
 have nowhere to go. A gain needs a whole new layout with fillers built in.
+
+### Bands are stacks of separately rotated rows
+
+On the Living Atlas, most records from `n ≈ 150` to 273 look like bent bands.
+`atlas_families.py` labels every record in `best/`, and `bands.py` builds a
+grid plus two mirrored bands of tilted rows. Measured 2026-11-02:
+
+- **The gap is not in one family.** Against the 2026-11-01 per-puzzle table,
+  the 0.2008 gap splits diamond 0.058, strip 0.054, pinwheel 0.059, multi
+  0.027, grid 0.003, at about 5e-4 per puzzle over 400 puzzles. Records that
+  sit above their neighbours (residual against `n ± 2` in the same `k` band)
+  correlate with the gap (Spearman 0.42), but the 40 weakest are beaten no
+  more often than the rest (73% vs 79%).
+- **The bent band is two blocks placed diagonally, not two strips on the
+  walls.** In `n = 240` a band of 9 rows of 3–6 squares runs from the left
+  wall to the middle, its mirror in `y = x` runs on to the right wall
+  (centres within 0.08 of the mirror image), and the grid fills the staircase
+  on both sides. `rows.py` builds only thin strips on two walls.
+- **No single-angle lattice reaches these records.** Each row in the band
+  has its own angle (22.9, 20.2, 17.8, 17.9, 17.9, 19.2, 19.2, 18.7, 19.4
+  degrees on `n = 240`), and the row starts do not follow one shear. At the
+  record's `L` the counts are:
+
+| n | L | `rows.py` | `bands.py`, 300 s |
+|---|---:|---:|---:|
+| 240 | 15.96969 | 235 | 233 |
+| 273 | 16.98393 | 268 | 262 |
+| 211 / 212 / 242 / 274 | `k − 0.001…0.01` | 206 / 206 / 237 / 268 | |
+
+### Rigid-row bands: the fill is solved, the search is not
+
+`rowband.py` makes every row a rigid bar with its own angle, length and
+offset from the wall. Each row is pushed up until it touches the rows above
+(exactly, through the Minkowski sum of two squares: checked against SAT on
+2000 random pairs). The band is mirrored in `y = x`, then filled with axis
+squares. Measured 2026-11-02:
+
+- **The fill.** `rows.fill` is greedy, but an exact independent set over the
+  four corner grids finds the same count, so the greedy pass was not the
+  loss. What it lacked is squares on one grid line slid along it until they
+  touch a band: `n = 240` has 6 of them, `n = 273` has 23. `fill_mis` adds
+  these candidates and solves the set with HiGHS (0.5 s). From the records'
+  tilted squares alone it rebuilds `n = 182`, 210 and 240 exactly and 272 of
+  273. Most axis squares sit on the top-right grid (109 of 156 on `n = 240`)
+  or the bottom-left grid (37).
+- **The bands.** Rows read off the `n = 240` record and restacked land 0.08
+  from the record's squares (median, 0.27 max), and that alone costs 18
+  squares: 222 against 240. The rows are not quite rigid either: some end in
+  a single filler square at another angle (27.3 and 6.5 degrees on `n = 240`).
+  Climbing on the square count from the fit reaches 233, worse than
+  `rows.py`.
+- **The frontier.** Seeded from the next record down, at `L = k − 0.001`:
+
+| n | seed | `rows.py` | `rowband.py`, 240 s |
+|---|---|---:|---:|
+| 274 | 273 | 268 | 271 |
+| 242 | 240 | 237 | 236 |
+
+Counting squares at a fixed `L` is a poor objective for jammed layouts: a
+band 0.01 out of place costs whole rows of grid.
+
+Scoring by `L` after polishing does not help either, because there is no
+loose start. The `n = 240` rows, refitted, hold with the exact fill:
+
+| L | 15.97 | 15.98 | 15.99 | 16.00 | 16.02 | 16.05 |
+|---|---:|---:|---:|---:|---:|---:|
+| squares | 222 | 224 | 226 | 229 | 233 | 235 |
+
+A plain grid holds 256 at `L = 16`. The bands beat the grid only when they
+are tight, so a build that fits `n` easily is a grid, and the contact LP
+cannot shrink a grid. A band search has to start from a record's exact
+squares, not from a fit.
 
 ### The record gap has no chain roots
 
@@ -234,6 +327,11 @@ The crop rule (the reverse of lift, every subset size, now in
 4. ~~Search seeds, ranked by chain value.~~ Done 2026-11-02: the record gap
    has no chain roots worth more than 0.004 each (see above).
 5. **Attack the frontier** at `k² − (j_min − 1)`.
+6. ~~Rigid-row band builder.~~ Built (`rowband.py`): the exact fill
+   rebuilds records from their tilted squares, but searching the band rows
+   on square count stops 3–7 short, and polishing from a looser `L` has no
+   start to work from (see above). Left open: moving the record's own rows
+   as rigid bodies at the frontier and refilling with `fill_mis`.
 
 ---
 

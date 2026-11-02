@@ -87,13 +87,28 @@ def build(L, prm):
             bad[j[hit]] = True
         keep = np.r_[np.ones(len(A), bool), ~bad]
         txy, tth = txy[keep], tth[keep]
+    return fill(L, txy, tth)
 
-    # axis cells from the four corner-anchored grids, then greedy fill
+
+def fill(L, txy, tth, anchors=None):
+    """Add axis cells from the four corner-anchored grids greedily around (txy, tth).
+
+    anchors, e.g. "TR BL", uses only those corners' grids and takes cells
+    nearest their own corner first, so the grids grow towards each other;
+    by default all four are mixed, left/bottom first."""
     m = int(math.floor(L + EPS))
     s = np.arange(m) + 0.5
-    cand = np.vstack([np.stack(np.meshgrid(xs, ys), -1).reshape(-1, 2)
-                      for xs in (s, L - s) for ys in (s, L - s)])
-    cand = np.unique(np.round(cand, 12), axis=0)
+    if anchors:
+        side = {"L": s, "B": s, "R": L - s, "T": L - s}
+        cand = np.vstack([np.stack(np.meshgrid(side[a[1]], side[a[0]]), -1).reshape(-1, 2)
+                          for a in anchors.split()])
+        # ranks: s is the distance from the cell's own corner, a tie-break per anchor
+        rank = np.concatenate([np.add.outer(s, s).ravel() + 1e-3 * k
+                               for k, _ in enumerate(anchors.split())])
+    else:
+        cand = np.vstack([np.stack(np.meshgrid(xs, ys), -1).reshape(-1, 2)
+                          for xs in (s, L - s) for ys in (s, L - s)])
+        cand = np.unique(np.round(cand, 12), axis=0)
     blocked = np.zeros(len(cand), bool)
     if len(txy):
         near = cKDTree(txy).sparse_distance_matrix(cKDTree(cand), 1.42, output_type="ndarray")
@@ -101,8 +116,8 @@ def build(L, prm):
             i, j = near["i"], near["j"]
             hit = pen(txy[i], tth[i], cand[j], np.zeros(len(j))) > EPS
             blocked[j[hit]] = True
-    # ponytail: greedy in a fixed order (left/bottom first); a max independent set could fit more
-    order = np.lexsort((cand[:, 0], cand[:, 1]))
+    # ponytail: greedy in a fixed order; a max independent set could fit more
+    order = np.argsort(rank, kind="stable") if anchors else np.lexsort((cand[:, 0], cand[:, 1]))
     taken = {}
     out = []
     for q in order:
