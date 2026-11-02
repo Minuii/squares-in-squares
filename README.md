@@ -8,7 +8,8 @@ Each puzzle scores `L/√n − 1`, where `L` is the side of the tightest
 axis-aligned square around the packing. The leaderboard is the sum over all
 1000 puzzles, and lower is better.
 
-**Current score: 22.2570079095**, confirmed on Kaggle, with 0 puzzles rejected. The previous file, 22.9888,
+**Current score: 22.2569857322** locally, with 0 puzzles rejected. The previous file,
+22.2570079095, was confirmed on Kaggle. The previous file, 22.9888,
 was confirmed on Kaggle at 22.9888002452. All 1000
 puzzles pass a check built from the metric's own rules, which predicted the
 Kaggle score to 1e-10.
@@ -61,13 +62,12 @@ Needs 64-bit Python 3.14.
 python -m venv .venv
 .venv/Scripts/python -m pip install -r requirements.txt
 .venv/Scripts/python fetch_witnesses.py
-.venv/Scripts/python merge_public.py public/living_atlas.csv   # optional
-.venv/Scripts/python make_submission.py
+.venv/Scripts/python make_submission.py             # rebuild from best/
+.venv/Scripts/python make_submission.py --refresh   # pull newest public packings first
 ```
 
-`best/` already holds the public packings. The optional step only matters for a
-newer public file, downloaded from the Living Atlas notebook's Output tab into
-`public/`. `make_submission.py` takes about 15 minutes on 8 cores. It writes
+`--refresh` downloads the Living Atlas notebook's newest `submission.csv` with the
+Kaggle CLI, which needs an API token in `~/.kaggle/access_token`, and merges it into `best/`. `make_submission.py` takes about 15 minutes on 8 cores. It writes
 `submission_final.csv`, and `best/` only ever improves. On Linux or macOS use
 `.venv/bin/python`.
 

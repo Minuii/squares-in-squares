@@ -6,3 +6,5 @@ gmpy2
 scipy
 pandas
 torch  # only for gpu_search.py
+kaggle  # only for make_submission.py --refresh
+six
