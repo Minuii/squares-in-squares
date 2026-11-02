@@ -1,10 +1,13 @@
-"""lift_packings.py -- apply the two free closure rules to best/.
+"""lift_packings.py -- apply the three free closure rules to best/.
 
     lift    a packing of n squares in side L gains an L-shaped strip of unit
             squares: n + 2*floor(L) + 1 squares in side L + 1
     delete  a packing of n + 1 squares is also one of n squares
+    crop    the squares inside a corner box of side s are a packing of that
+            many squares in side s (a subset of a valid packing is valid);
+            the reverse of lift is one case
 
-Both are repeated until nothing changes. A packing is written to best/ only if
+All are repeated until nothing changes. A packing is written to best/ only if
 it beats what is there, so this is safe to rerun.
 
     python src/lift_packings.py            # update best/
@@ -48,8 +51,20 @@ def lift(xy: np.ndarray, th: np.ndarray, L: float):
     return np.vstack([xy, col, row]), np.concatenate([th, np.zeros(2 * k + 1)])
 
 
+def crops(xy: np.ndarray, th: np.ndarray):
+    """Per corner: (sides, order) where the squares order[:k] fit a box of side sides[k-1]."""
+    P = sc.corners(xy, th)
+    X, Y = P[..., 0], P[..., 1]
+    x0, x1, y0, y1 = X.min(), X.max(), Y.min(), Y.max()
+    for dx in (X.max(1) - x0, x1 - X.min(1)):
+        for dy in (Y.max(1) - y0, y1 - Y.min(1)):
+            need = np.maximum(dx, dy)
+            order = np.argsort(need, kind="stable")
+            yield need[order], order
+
+
 def close(pack) -> set[int]:
-    """Apply both rules in place until stable. Returns the n that changed."""
+    """Apply the rules in place until stable. Returns the n that changed."""
     touched: set[int] = set()
     changed = True
     while changed:
@@ -67,6 +82,16 @@ def close(pack) -> set[int]:
                 pack[m] = (*lift(xy, th, L), L + 1)
                 touched.add(m)
                 changed = True
+            best = np.array([pack[k][2] for k in range(1, n)])
+            for sides, order in crops(xy, th):
+                for k in np.flatnonzero(sides[:n - 1] < best - EPS) + 1:
+                    sub = order[:k]
+                    side = sc.container_side(xy[sub], th[sub])
+                    if side < pack[k][2] - EPS:
+                        pack[k] = (*sc.centered(xy[sub], th[sub]), side)
+                        best[k - 1] = side
+                        touched.add(int(k))
+                        changed = True
     return touched
 
 
