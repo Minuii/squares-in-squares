@@ -8,7 +8,7 @@ Each puzzle scores `L/√n − 1`, where `L` is the side of the tightest
 axis-aligned square around the packing. The leaderboard is the sum over all
 1000 puzzles, and lower is better.
 
-**Current score: 22.2570079095** locally, with 0 puzzles rejected. The previous file, 22.9888,
+**Current score: 22.2570079095**, confirmed on Kaggle, with 0 puzzles rejected. The previous file, 22.9888,
 was confirmed on Kaggle at 22.9888002452. All 1000
 puzzles pass a check built from the metric's own rules, which predicted the
 Kaggle score to 1e-10.

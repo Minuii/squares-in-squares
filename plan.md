@@ -16,7 +16,7 @@ Figures as of 2026-11-02.
 | thing | value | source |
 |---|---|---|
 | all-grid baseline | 28.9376699166 | computed |
-| **our file (`submission_final.csv`)** | **22.2570079095** | 0 rejected; includes 614 public packings |
+| **our file (`submission_final.csv`)** | **22.2570079095** | Kaggle scored it 22.2570079095 on 2026-11-02; includes 614 public packings |
 | own packings only | 22.9888002453 | Kaggle scored it 22.9888002452 on 2026-11-02 |
 | best merge of public packings | 22.2570079163 | Living Atlas, newest run |
 | aggregate of every record (2026-11-01) | 22.0562319827 | per-puzzle table |
@@ -63,7 +63,7 @@ to be a new record. #1 is about 0.2 ahead.
       cores.
 - [x] Own-work file uploaded: Kaggle 22.9888002452, local 22.9888002453.
 - [x] Public packings merged (`merge_public.py`, sources in
-      `best/provenance.json`): 22.2570079095, 0 rejected. Not yet uploaded.
+      `best/provenance.json`): 22.2570079095, 0 rejected, confirmed on Kaggle.
 
 ---
 
@@ -165,7 +165,7 @@ contact LP as the finisher.
 
 ## Next
 
-1. **Upload the merged file** and confirm 22.2570.
+1. ~~Upload the merged file~~ Done: Kaggle 22.2570079095.
 2. **Polish the public packings** with `contact_polish.py`; they are not jammed.
 3. **New starting packings.** Make unjammed candidates for the polisher with a
    global search (L-BFGS on a penalty, on GPU as the public code does), or with
