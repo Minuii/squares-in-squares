@@ -162,6 +162,39 @@ What would be needed instead: moves that keep rows rigid (shift or rotate
 whole rows or blocks), or a combinatorial search over layouts, with the
 contact LP as the finisher.
 
+### Row-layout search falls 3–6 squares short
+
+The 900+ packings are a grid plus two blocks of sheared rows in a pinwheel:
+pitch `1/cos t` along a row, rows `cos t` apart, so `k` rows fill a strip of
+height `H = k cos t + sin t`. `rows.py` builds that family from ~10 numbers
+(the angle follows from `k` and `H`) and scans it. Measured 2026-11-02:
+
+| n | fits at current L | needs |
+|---|---:|---:|
+| 920 | 914 | 920 |
+| 930 | 924 | 930 |
+| 984 | 979 | 984 |
+| 994 | 991 | 994 |
+| 998 | 995 | 998 |
+
+The gap is the small filler squares at the ragged row ends. They cannot be
+added afterwards: on `n = 994` only 2 points sit 1 from every centre, and
+dropping 3 squares into the largest holes then relaxing at fixed `L` stalls
+at penetration 0.04 (0.3 with rotation noise). Sheared rows are locked: a
+row cannot slide without entering the next.
+
+### Free flips do not exist
+
+A window flip (mirror or rotate everything inside a rectangle that no square
+crosses) keeps the packing valid at the same `L` but changes contacts, so it
+could unjam the LP at no cost. `flips.py` finds no clean window holding a
+tilted square on `n = 376, 457, 930, 994`, even at 1e-3 tolerance or anchored
+at the corners. The best window with 5+ tilted squares inside still cuts 7
+squares (`n = 994`) or 10 (`n = 457`): the blocks interlock wall to wall.
+
+Both results say the same thing: local or discrete edits to these layouts
+have nowhere to go. A gain needs a whole new layout with fillers built in.
+
 ---
 
 ## Next
@@ -172,7 +205,8 @@ contact LP as the finisher.
    22.2570078917. They are effectively polished already; this lever is spent.
 3. **New starting packings.** Make unjammed candidates for the polisher with a
    global search (L-BFGS on a penalty, on GPU as the public code does), or with
-   new constructions.
+   new constructions. Row layouts without fillers and free flips are ruled out
+   (see above).
 4. **Search seeds, ranked by chain value.** An improvement at `n` counts once
    for every lift it propagates to.
 5. **Attack the frontier** at `k² − (j_min − 1)`.
