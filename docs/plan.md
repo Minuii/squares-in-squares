@@ -324,6 +324,24 @@ Our weakest packings are the 45° diagonal strip at integer + 1/√2
 The crop rule (the reverse of lift, every subset size, now in
 `lift_packings.py`) gains 1.9e-10 on `best/`, so `best/` is closed under it.
 
+### Record sides carry no layout
+
+`lb_table.json` gives each record's side to 50 digits, but no coordinates.
+`decode_sides.py` tests whether the sides alone reveal how the records are
+built. Measured 2026-11-02 on the 417 records that beat `best/`:
+
+| test | result |
+|---|---|
+| same fractional part as another record (same gadget, bigger grid) | 32 of 417, in 13 groups, mostly lift chains |
+| …and the group holds one of our packings, so it could be rebuilt | 1 group, worth 0.00021 |
+| low-degree algebraic side (degree ≤ 4, small coefficients) | 13 of 417, all near-integer false hits; control: 23 of our 26 |
+| digits past 1e-16 | rounding leftovers: 440 of 1000 sides are exactly a double |
+
+Our packings are exact constructions and their sides are algebraic. The
+records' sides are not, so the records are numerical optima, as the chain-root
+test suggested. A side value says only where the frontier is, not how to
+reach it.
+
 ---
 
 ## Next
@@ -347,6 +365,8 @@ The crop rule (the reverse of lift, every subset size, now in
    on square count stops 3–7 short, and polishing from a looser `L` has no
    start to work from (see above). Left open: moving the record's own rows
    as rigid bodies at the frontier and refilling with `fill_mis`.
+7. ~~Decode the record sides.~~ Done 2026-11-02 (`decode_sides.py`): the
+   records are numerical optima, and their sides give no layout (see above).
 
 ---
 
