@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+_vendor/
+literature/
+best_backup_before_lift/
+rules.md
+squares-in-squares-per-puzzle-leaderboard.ipynb
+squares-in-squares-publicleaderboard-*/
+*.csv
+*.zip
+!submission_final.csv

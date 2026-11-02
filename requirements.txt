@@ -1,0 +1,7 @@
+numpy
+pillow
+pyyaml
+mpmath
+gmpy2
+scipy
+pandas
