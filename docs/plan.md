@@ -204,6 +204,21 @@ finish, `n = 10` first succeeds at `L = 3.8`, with 1 start out of 16 for both
 hard and rounded squares. Random starts cannot reach the structured layouts
 above `n ≈ 30`, so this can be used only as a loosening step on warm starts.
 
+`--warm` tries that. It starts from the record in `best/`, rounds the corners
+to `r0`, and shrinks the box from `L` to the target. On `n = 206` and `260`
+(better records exist 2.6e-5 and 2.7e-4 below):
+
+| test | result |
+|---|---|
+| target `L + 0.001`, no noise, hard squares | 0 / 16 |
+| target `L + 0.001`, no noise, `r0 = 0.05` | 16 / 16, rounding beats the 97% shrink as a loosening |
+| target `L + 0.001`, noise 0.002, `r0 = 0.05` | 0 / 16 |
+| targets `L − 2e-5` and `L − 2e-4`, `r0` 0.02–0.2, noise 0–0.003 | 0 in every case |
+
+Rounding lets a record that has been nudged settle back into itself, but not
+into anything smaller. The better records for these `n` have different
+layouts, which no smooth path from ours reaches.
+
 ### Free flips do not exist
 
 A window flip (mirror or rotate everything inside a rectangle that no square
