@@ -86,6 +86,7 @@ Kaggle CLI, which needs an API token in `~/.kaggle/access_token`, and merges it 
 | `plan.md` | findings, status and next steps |
 | `description.md` | the problem, the metric and the known results |
 | `packing_unit_squares.ipynb`, `visual_tour.ipynb` | executed notebooks |
+| `WALKTHROUGH.md`, `walkthrough.ipynb` | the whole project told in order; the notebook is executed and rebuilt by `build_walkthrough_notebook.py` |
 | `figures/` | generated images |
 
 ## Next steps
